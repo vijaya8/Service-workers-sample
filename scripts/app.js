@@ -170,6 +170,20 @@
         statement;
     // TODO add cache logic here
 
+    if ('caches' in window) {
+      caches.match(url).then(function(response) {
+        if (response) {
+          response.json().then(function updateFromCache(json) {
+            var results = json.query.results;
+            results.key = key;
+            results.label = label;
+            results.created = json.query.created;
+            app.updateForecastCard(results);
+          });
+        }
+      });
+    }
+
     // Fetch the latest data.
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -279,7 +293,7 @@
   var initialWeatherForecast = {
     key: '2459115',
     label: 'New York, NY',
-    created: '2016-07-22T01:00:00Z',
+    created: '2016-06-12T01:00:00Z',
     channel: {
       astronomy: {
         sunrise: "5:43 am",
@@ -288,7 +302,7 @@
       item: {
         condition: {
           text: "Windy",
-          date: "Thu, 21 Jul 2016 09:00 PM EDT",
+          date: "Thu, 12 June 2016 09:00 PM EDT",
           temp: 56,
           code: 24
         },
